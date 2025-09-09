@@ -9,8 +9,8 @@ import ProductCatalogPage from "./pages/ProductCatalogPage";
 
 function App() {
   const [products, setProducts] = useState([]);
-  const [sortOrder, setSortOrder] = useState("asc"); // ← added
-  const [searchTerm, setSearchTerm] = useState("");   // ← added
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchProducts = async () => {
     try {
@@ -29,10 +29,8 @@ function App() {
   const addProduct = async (product, id = null) => {
     try {
       if (id) {
-        // Update product
         await api.put(`/products/${id}`, product);
       } else {
-        // Add new product
         await api.post("/products", product);
       }
       fetchProducts();
@@ -58,10 +56,21 @@ function App() {
       <div className="bg-gray-100 min-h-screen">
         <Navbar />
         <Routes>
+          {/* Default route → Product Catalog */}
           <Route
-            path="/add-product"
-            element={<AddProductPage addProduct={addProduct} />}
+            path="/"
+            element={
+              <ProductCatalogPage
+                products={products}
+                deleteProduct={deleteProduct}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+              />
+            }
           />
+
           <Route
             path="/products"
             element={
@@ -69,11 +78,16 @@ function App() {
                 products={products}
                 deleteProduct={deleteProduct}
                 sortOrder={sortOrder}
-                setSortOrder={setSortOrder}      // ← added
+                setSortOrder={setSortOrder}
                 searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}    // ← added
+                setSearchTerm={setSearchTerm}
               />
             }
+          />
+
+          <Route
+            path="/add-product"
+            element={<AddProductPage addProduct={addProduct} />}
           />
         </Routes>
       </div>

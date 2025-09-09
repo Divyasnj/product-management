@@ -8,8 +8,8 @@ function AddProductPage({ addProduct }) {
   // Get editing product from location state (if any)
   const editingProduct = location.state?.product || null;
 
-  const handleSubmit = async (productData) => {
-    await addProduct(productData, editingProduct?._id); // pass ID if editing
+  const handleSubmit = async (productData, id) => {
+    await addProduct(productData, id); // ✅ pass ID if editing
     navigate("/products"); // redirect after save
   };
 
@@ -18,7 +18,8 @@ function AddProductPage({ addProduct }) {
       <h2 className="text-2xl font-bold mb-4">
         {editingProduct ? "Edit Product" : "Add Product"}
       </h2>
-      <ProductForm onAdd={handleSubmit} editingProduct={editingProduct} />
+      {/* ✅ Now consistent with ProductForm */}
+      <ProductForm onSubmit={handleSubmit} editingProduct={editingProduct} />
     </div>
   );
 }

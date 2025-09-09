@@ -11,7 +11,7 @@ function ProductCard({ product, onDelete, onEdit }) {
       <div className="flex gap-2 mt-3">
         <button
           onClick={() => onEdit(product)}
-          className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-cyan-500 transition-colors"
+          className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-blue-500 transition-colors"
         >
           Edit
         </button>
