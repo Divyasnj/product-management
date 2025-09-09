@@ -31,3 +31,30 @@ Frontend: ReactJS (Functional Components, Hooks, CSS)
 Backend: Node.js, ExpressJS
 
 Database: MongoDB with Mongoose
+
+productmanage/
+│
+├── backend/
+│   ├── controllers/
+│   │   └── productController.js
+│   ├── middleware/
+│   │   └── cloudinary.js      (extra, not required for simple CRUD)
+│   ├── models/
+│   │   └── Product.js
+│   ├── routes/
+│   │   └── productRoutes.js
+│   ├── db.js
+│   ├── index.js              (server entry point)
+│   ├── package.json
+│   └── .env
+│
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   │   └── axios.js
+│   │   └── ... (React files)
+│   ├── public/
+│   └── package.json
+│
+└── README.md
+
