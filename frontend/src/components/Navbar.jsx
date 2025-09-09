@@ -12,7 +12,7 @@ function Navbar() {
   ];
 
   return (
-    <nav className="bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-md sticky top-0 z-50">
+    <nav className="bg-blue-700 text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* Logo */}
         <h1 className="text-2xl font-extrabold tracking-wide cursor-pointer">

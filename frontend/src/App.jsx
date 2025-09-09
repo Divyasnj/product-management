@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import api from "./api/axios";
-
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import AddProductPage from "./pages/AddProductPage";
 import ProductCatalogPage from "./pages/ProductCatalogPage";
+import HomePage from "./pages/HomePage"; // ✅ import new page
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -56,20 +56,8 @@ function App() {
       <div className="bg-gray-100 min-h-screen">
         <Navbar />
         <Routes>
-          {/* Default route → Product Catalog */}
-          <Route
-            path="/"
-            element={
-              <ProductCatalogPage
-                products={products}
-                deleteProduct={deleteProduct}
-                sortOrder={sortOrder}
-                setSortOrder={setSortOrder}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-              />
-            }
-          />
+          {/* ✅ Home Page */}
+          <Route path="/" element={<HomePage />} />
 
           <Route
             path="/products"

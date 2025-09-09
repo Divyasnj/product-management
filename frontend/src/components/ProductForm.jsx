@@ -80,7 +80,8 @@ function ProductForm({ onSubmit, editingProduct }) {
       className="max-w-lg mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden"
     >
       {/* Gradient Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-center">
+      <div className="bg-blue-700
+p-6 text-center">
         <h3 className="text-2xl font-bold text-white">
           {editingProduct ? "Edit Product" : "Add Product"}
         </h3>
@@ -166,7 +167,7 @@ function ProductForm({ onSubmit, editingProduct }) {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-lg font-semibold shadow-md hover:opacity-90 active:scale-95 transition-transform"
+          className="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-blue-800 active:scale-95 transition-transform"
         >
           {editingProduct ? "Update Product" : "Add Product"}
         </button>
