@@ -7,6 +7,7 @@ function Navbar() {
   const location = useLocation();
 
   const navLinks = [
+    { name: "Home", path: "/" }, // ✅ Added Home link
     { name: "New Product", path: "/add-product" },
     { name: "Product Catalog", path: "/products" },
   ];

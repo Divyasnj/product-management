@@ -5,6 +5,7 @@ require("dotenv").config();
 const connectDB = require("./db");
 const productRoutes = require("./routes/productRoutes");
 
+
 const app = express();
 
 // Connect to DB
@@ -14,12 +15,14 @@ connectDB();
 app.use(
   cors({
     origin: "http://localhost:5173", // frontend URL
+    credentials: true,
   })
 );
 app.use(express.json());
 
 // Routes
 app.use("/api/products", productRoutes);
+
 
 // Start server
 const PORT = process.env.PORT || 5000;
