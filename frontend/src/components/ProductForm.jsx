@@ -8,6 +8,8 @@ function ProductForm({ onSubmit, editingProduct }) {
     category: "",
   });
 
+  const [image, setImage] = useState(null); // file
+  const [preview, setPreview] = useState(null); // preview URL
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -18,12 +20,23 @@ function ProductForm({ onSubmit, editingProduct }) {
         description: editingProduct.description || "",
         category: editingProduct.category || "",
       });
+      if (editingProduct.imageUrl) {
+        setPreview(editingProduct.imageUrl);
+      }
     }
   }, [editingProduct]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
   const validate = () => {
@@ -43,12 +56,21 @@ function ProductForm({ onSubmit, editingProduct }) {
       return;
     }
 
-    // ✅ Call onSubmit with ID if editing
-    onSubmit({ ...form, price: Number(form.price) }, editingProduct?._id);
+    // ✅ Build FormData for file upload
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("price", form.price);
+    formData.append("description", form.description);
+    formData.append("category", form.category);
+    if (image) formData.append("image", image);
 
-    // ✅ Reset only for Add
+    onSubmit(formData, editingProduct?._id);
+
+    // Reset only for Add
     if (!editingProduct) {
       setForm({ name: "", price: "", description: "", category: "" });
+      setImage(null);
+      setPreview(null);
     }
   };
 
@@ -75,7 +97,7 @@ function ProductForm({ onSubmit, editingProduct }) {
             value={form.name}
             onChange={handleChange}
             placeholder="Enter product name"
-            className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+            className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3"
           />
           {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
         </div>
@@ -89,23 +111,21 @@ function ProductForm({ onSubmit, editingProduct }) {
             value={form.price}
             onChange={handleChange}
             placeholder="Enter price"
-            className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+            className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3"
           />
           {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
         </div>
 
         {/* Description */}
         <div>
-          <label className="block mb-2 font-medium text-gray-700">
-            Description
-          </label>
+          <label className="block mb-2 font-medium text-gray-700">Description</label>
           <textarea
             name="description"
             value={form.description}
             onChange={handleChange}
             placeholder="Write a short description"
             rows={3}
-            className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none transition"
+            className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 resize-none"
           />
         </div>
 
@@ -118,10 +138,28 @@ function ProductForm({ onSubmit, editingProduct }) {
             value={form.category}
             onChange={handleChange}
             placeholder="Enter category"
-            className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+            className="w-full bg-gray-50 border border-gray-300 rounded-lg p-3"
           />
           {errors.category && (
             <p className="text-red-500 text-sm">{errors.category}</p>
+          )}
+        </div>
+
+        {/* Image Upload */}
+        <div>
+          <label className="block mb-2 font-medium text-gray-700">Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full"
+          />
+          {preview && (
+            <img
+              src={preview}
+              alt="Preview"
+              className="mt-3 w-32 h-32 object-cover rounded-lg border"
+            />
           )}
         </div>
 
