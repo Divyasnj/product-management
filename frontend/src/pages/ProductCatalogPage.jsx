@@ -1,6 +1,7 @@
 import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useCart } from "../context/cartContext";
 
 function ProductCatalogPage({
   products,
@@ -13,6 +14,8 @@ function ProductCatalogPage({
   const navigate = useNavigate();
   const [priceFilter, setPriceFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const { addToCart } = useCart();
+
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,6 +131,7 @@ function ProductCatalogPage({
             product={p}
             onDelete={deleteProduct}
             onEdit={handleEdit}
+            onAddToCart={() => addToCart(p._id)}
           />
         ))}
       </div>

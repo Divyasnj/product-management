@@ -1,15 +1,24 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { useCart } from "../context/cartContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { cart } = useCart();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   const navLinks = [
-    { name: "Home", path: "/" }, // ✅ Added Home link
+    { name: "Home", path: "/" },
     { name: "New Product", path: "/add-product" },
     { name: "Product Catalog", path: "/products" },
+    { name: "Cart", path: "/cart" },
   ];
 
   return (
@@ -21,7 +30,7 @@ function Navbar() {
         </h1>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex space-x-4">
+        <div className="hidden md:flex space-x-4 items-center">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
             return (
@@ -34,10 +43,25 @@ function Navbar() {
                     : "bg-white/20 hover:bg-yellow-300 hover:text-blue-700"
                 }`}
               >
-                {link.name}
+                <div className="relative">
+                  {link.name}
+                  {link.name === "Cart" && cart.length > 0 && (
+                    <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold rounded-full px-2">
+                      {cart.length}
+                    </span>
+                  )}
+                </div>
               </Link>
             );
           })}
+
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-4 py-2 rounded-full font-medium hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -65,10 +89,28 @@ function Navbar() {
                     : "bg-white/20 hover:bg-yellow-300 hover:text-blue-700"
                 }`}
               >
-                {link.name}
+                <div className="flex justify-center items-center gap-2">
+                  <span>{link.name}</span>
+                  {link.name === "Cart" && cart.length > 0 && (
+                    <span className="bg-red-500 text-white text-xs font-bold rounded-full px-2">
+                      {cart.length}
+                    </span>
+                  )}
+                </div>
               </Link>
             );
           })}
+
+          {/* Mobile Logout */}
+          <button
+            onClick={() => {
+              handleLogout();
+              setIsOpen(false);
+            }}
+            className="block w-full bg-red-500 text-white px-4 py-2 rounded-full font-medium text-center"
+          >
+            Logout
+          </button>
         </div>
       )}
     </nav>
